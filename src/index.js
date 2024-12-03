@@ -61,9 +61,22 @@ const registerEventHandlers = () => {
   tempUpButton.addEventListener("click", increaseTemp);
   tempDownButton.addEventListener("click", decreaseTemp);
 };
+// wave 3
+const updateCityName = () => {
+  const cityNameInput = document.querySelector('#cityNameInput');
+  const cityNameDisplay = document.querySelector('#headerCityName');
+  cityNameDisplay.textContent = cityNameInput.value;
+};
+
+const registerCityNameHandlers = () => {
+  const cityNameInput = document.querySelector('#cityNameInput');
+  cityNameInput.addEventListener('input', updateCityName);
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   updateTemperatureDisplay();
   registerEventHandlers();
-})
+  registerCityNameHandlers();
+});
+
 
