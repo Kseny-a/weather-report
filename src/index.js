@@ -1,6 +1,27 @@
+const state = {
+  tempValue: 70
+}
+const increaseTemp = () => {
+  const tempUp = document.querySelector('#increaseTempControl')
+    state.tempValue +=1
+    const tempContainer = document.querySelector('#tempValue')
+    tempContainer.textContent = state.tempValue;
+};
 
 
-let tempValue = 72;
+const registerEventHandlers = () => {
+  const tempUp = document.querySelector('#increaseTempControl')
+  tempUp.addEventListener("click", increaseTemp());
+}
+
+const tempDown = document.querySelector('#decreaseTempControl')
+tempDown.addEventListener('click', (tempValue) => {
+  return tempValue-=1
+});
+
+document.addEventListener("DOMContentLoaded", registerEventHandlers);
+
+// let tempValue = 72;
 
 const temp = document.getElementById('tempValue')
 temp.innerText = tempValue
