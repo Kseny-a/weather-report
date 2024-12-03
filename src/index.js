@@ -1,3 +1,4 @@
+// wave 2
 const state = {
   tempValue: 70
 }
@@ -18,11 +19,29 @@ const tempColorByNum = (value) => {
   return tempColor
 };
 
+const updateLandscape = (temp) => {
+  const landscapeContainer = document.querySelector('#landscape');
+  let landscape = '';
+
+  if (temp >= 80) {
+    landscape = '🌵__🐍_🦂_🌵🌵__🐍_🏜_🦂';
+  } else if (temp >= 70) {
+    landscape = '🌸🌿🌼__🌷🌻🌿_☘️🌱_🌻🌷';
+  } else if (temp >= 60) {
+    landscape = '🌾🌾_🍃_🪨__🛤_🌾🌾🌾_🍃';
+  } else if (temp <= 59) {
+    landscape = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
+  }
+
+  landscapeContainer.textContent = landscape;
+}
+
 
 const updateTemperatureDisplay = () => {
   const tempContainer = document.querySelector('#tempValue');
   tempContainer.textContent = `${state.tempValue}F`;
   tempContainer.style.color = tempColorByNum(state.tempValue);
+  updateLandscape(state.tempValue);
 }
 
 const increaseTemp = () => {
