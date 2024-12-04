@@ -1,6 +1,7 @@
 // wave 2
 const state = {
   tempValue: 70
+
 }
 
 const tempColorByNum = (value) => {
@@ -35,7 +36,6 @@ const updateLandscape = (temp) => {
 
   landscapeContainer.textContent = landscape;
 }
-
 
 const updateTemperatureDisplay = () => {
   const tempContainer = document.querySelector('#tempValue');
@@ -77,6 +77,71 @@ document.addEventListener("DOMContentLoaded", () => {
   updateTemperatureDisplay();
   registerEventHandlers();
   registerCityNameHandlers();
+  findLocation();
 });
+
+// wave 5
+
+const skyObj = {
+  sunny: '☁️ ☁️ ☁️ ☀️ ☁️ ☁️',
+  cloudy: '☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️',
+  rainy: '🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧',
+  snowy: '🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨'
+}
+
+const selectElement = document.querySelector('#skySelect');
+const skyContainer = document.querySelector('#sky');
+selectElement.addEventListener('change',(event) =>{
+const key = event.target.value;
+skyContainer.textContent = skyObj[key]; 
+});
+
+// wave 4
+
+// const cityName = document.querySelector('#headerCityName').textContent;
+// axios
+//   .get('http://127.0.0.1:5000/location', {
+//     params: {
+//       key: process.env.LOCATION_KEY,  
+//       q: cityName,
+//       format: 'json',
+//     },
+//   })
+//   .then((response) => {
+//     console.log(response.data);
+//   })
+//   .catch((error) => {
+//     console.log(error.response.data);
+//   });
+
+
+
+const findLocation = async () => {
+  const cityName = document.querySelector('#cityNameInput').textContent;
+  console.log(cityName);
+  try {
+    const response = await axios.get('http://127.0.0.1:5000/location', {
+      params: {
+        key: process.env.LOCATION_KEY,
+        q: cityName,
+        format: 'json',
+      },
+    });
+      return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.log('API Error:', error.response.data);
+    } else if (error.request) {
+      console.log('Network Error: No response received');
+    } else {
+      console.log('Error:', error.message);
+    }
+  }
+};
+
+// const registerWeatherHandlers = () => {
+//   cityNameInput.addEventListener('input', updateCityName);
+// };
+
 
 
