@@ -1,7 +1,9 @@
 // wave 2
 const state = {
-  tempValue: 70
-}
+  tempValue: 50,
+  defaultCity: 'Seattle',
+
+};
 
 const tempColorByNum = (value) => {
 
@@ -36,7 +38,6 @@ const updateLandscape = (temp) => {
   landscapeContainer.textContent = landscape;
 }
 
-
 const updateTemperatureDisplay = () => {
   const tempContainer = document.querySelector('#tempValue');
 
@@ -62,6 +63,7 @@ const registerTempUpdateHandlers = () => {
   tempUpButton.addEventListener("click", increaseTemp);
   tempDownButton.addEventListener("click", decreaseTemp);
 };
+
 // wave 3
 const updateCityName = () => {
   const cityNameInput = document.querySelector('#cityNameInput');
@@ -79,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
   registerTempUpdateHandlers();
   registerCityNameHandlers();
   registerGetRealtimeTempHandlers();
+  registerResetCityNameEventHandlers();
 });
 
 //wave4
@@ -111,4 +114,59 @@ const registerGetRealtimeTempHandlers = () => {
   const currentTempButton = document.getElementById('currentTempButton');
   currentTempButton.addEventListener('click', getTemp);
 } 
+
+// wave 5
+
+const skyObj = {
+  sunny: '☁️ ☁️ ☁️ ☀️ ☁️ ☁️',
+  cloudy: '☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️',
+  rainy: '🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧',
+  snowy: '🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨'
+}
+
+const selectElement = document.querySelector('#skySelect');
+const skyContainer = document.querySelector('#sky');
+selectElement.addEventListener('change',(event) =>{
+const key = event.target.value;
+console.log(event)
+skyContainer.textContent = skyObj[key]; 
+});
+
+// wave 6
+
+const resetCityName = () => {
+  const cityNameInput = document.querySelector('#cityNameInput');
+  const cityNameDisplay = document.querySelector('#headerCityName');
+  cityNameInput.value = state.defaultCity;
+  cityNameDisplay.textContent = state.defaultCity;
+}
+
+const registerResetCityNameEventHandlers = () => {
+  const resetButton = document.querySelector('#cityNameReset');
+  resetButton.addEventListener('click', resetCityName);
+}
+
+// wave 4
+
+
+// const findLocation = async () => {
+//   const cityName = document.getElementById('cityNameInput').value;
+//   console.log(cityName);
+//   try {
+//     const response = await axios.get('http://127.0.0.1:5000/location', {
+//       params: {
+//         q: cityName,
+//       },
+//     });
+//       return response.data;
+//   } catch (error) {
+//     if (error.response) {
+//       console.log('API Error:', error.response.data);
+//     } else if (error.request) {
+//       console.log('Network Error: No response received');
+//     } else {
+//       console.log('Error:', error.message);
+//     }
+//   }
+// };
 
