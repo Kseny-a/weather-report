@@ -55,7 +55,7 @@ const decreaseTemp = () => {
   updateTemperatureDisplay();
 }
 
-const registerEventHandlers = () => {
+const registerTempUpdateHandlers = () => {
   const tempUpButton = document.querySelector('#increaseTempControl');
   const tempDownButton = document.querySelector('#decreaseTempControl');
 
@@ -76,7 +76,7 @@ const registerCityNameHandlers = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   updateTemperatureDisplay();
-  registerEventHandlers();
+  registerTempUpdateHandlers();
   registerCityNameHandlers();
   registerGetRealtimeTempHandlers();
 });
