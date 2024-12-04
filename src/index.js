@@ -1,8 +1,9 @@
 // wave 2
 const state = {
-  tempValue: 70
+  tempValue: 50,
+  defaultCity: 'Seattle',
 
-}
+};
 
 const tempColorByNum = (value) => {
 
@@ -77,7 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
   updateTemperatureDisplay();
   registerEventHandlers();
   registerCityNameHandlers();
-  findLocation();
+  // findLocation();
+  registerResetCityNameEventHandlers();
 });
 
 // wave 5
@@ -93,6 +95,7 @@ const selectElement = document.querySelector('#skySelect');
 const skyContainer = document.querySelector('#sky');
 selectElement.addEventListener('change',(event) =>{
 const key = event.target.value;
+console.log(event)
 skyContainer.textContent = skyObj[key]; 
 });
 
@@ -117,14 +120,12 @@ skyContainer.textContent = skyObj[key];
 
 
 const findLocation = async () => {
-  const cityName = document.querySelector('#cityNameInput').textContent;
+  const cityName = document.getElementById('cityNameInput').value;
   console.log(cityName);
   try {
     const response = await axios.get('http://127.0.0.1:5000/location', {
       params: {
-        key: process.env.LOCATION_KEY,
         q: cityName,
-        format: 'json',
       },
     });
       return response.data;
@@ -138,10 +139,18 @@ const findLocation = async () => {
     }
   }
 };
+// wave 6
 
-// const registerWeatherHandlers = () => {
-//   cityNameInput.addEventListener('input', updateCityName);
-// };
+const resetCityName = () => {
+  const cityNameInput = document.querySelector('#cityNameInput');
+  const cityNameDisplay = document.querySelector('#headerCityName');
+  cityNameInput.value = state.defaultCity;
+  cityNameDisplay.textContent = state.defaultCity;
+}
 
+const registerResetCityNameEventHandlers = () => {
+  const resetButton = document.querySelector('#cityNameReset');
+  resetButton.addEventListener('click', resetCityName);
+}
 
 
