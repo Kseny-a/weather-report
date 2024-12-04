@@ -41,7 +41,7 @@ const updateLandscape = (temp) => {
 const updateTemperatureDisplay = () => {
   const tempContainer = document.querySelector('#tempValue');
 
-  tempContainer.textContent = state.tempValue.toFixed(2)
+  tempContainer.textContent = state.tempValue.toFixed(0)
   tempContainer.style.color = tempColorByNum(state.tempValue);
   updateLandscape(state.tempValue);
 }
