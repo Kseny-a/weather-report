@@ -40,7 +40,8 @@ const updateLandscape = (temp) => {
 
 const updateTemperatureDisplay = () => {
   const tempContainer = document.querySelector('#tempValue');
-  tempContainer.textContent = `${state.tempValue}F`;
+
+  tempContainer.textContent = state.tempValue.toFixed(2)
   tempContainer.style.color = tempColorByNum(state.tempValue);
   updateLandscape(state.tempValue);
 }
@@ -55,13 +56,14 @@ const decreaseTemp = () => {
   updateTemperatureDisplay();
 }
 
-const registerEventHandlers = () => {
+const registerTempUpdateHandlers = () => {
   const tempUpButton = document.querySelector('#increaseTempControl');
   const tempDownButton = document.querySelector('#decreaseTempControl');
 
   tempUpButton.addEventListener("click", increaseTemp);
   tempDownButton.addEventListener("click", decreaseTemp);
 };
+
 // wave 3
 const updateCityName = () => {
   const cityNameInput = document.querySelector('#cityNameInput');
@@ -76,11 +78,42 @@ const registerCityNameHandlers = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   updateTemperatureDisplay();
-  registerEventHandlers();
+  registerTempUpdateHandlers();
   registerCityNameHandlers();
-  // findLocation();
+  registerGetRealtimeTempHandlers();
   registerResetCityNameEventHandlers();
 });
+
+//wave4
+const getTemp = () => {
+  const cityName = document.querySelector('#headerCityName').textContent;
+  axios
+    .get('http://127.0.0.1:5000/location', {params: {q: cityName }})
+    .then((response) => {
+      console.log(response)
+      const lat = response.data[0].lat;
+      const lon = response.data[0].lon;
+
+      axios
+        .get('http://127.0.0.1:5000/weather', {params: {lat, lon}})
+        .then((weatherResponse) => {
+          const tempInK = weatherResponse.data.main.temp;
+          const tempInF = (tempInK * (9/5)) - 459.67;
+          console.log(`success! temp is ${tempInF}`);
+          state.tempValue = tempInF;
+          updateTemperatureDisplay();
+          updateLandscape(state.tempValue);
+        });
+    })
+    .catch(() => {
+      console.log('Error!');
+    });
+};
+
+const registerGetRealtimeTempHandlers = () => {
+  const currentTempButton = document.getElementById('currentTempButton');
+  currentTempButton.addEventListener('click', getTemp);
+} 
 
 // wave 5
 
@@ -99,46 +132,6 @@ console.log(event)
 skyContainer.textContent = skyObj[key]; 
 });
 
-// wave 4
-
-// const cityName = document.querySelector('#headerCityName').textContent;
-// axios
-//   .get('http://127.0.0.1:5000/location', {
-//     params: {
-//       key: process.env.LOCATION_KEY,  
-//       q: cityName,
-//       format: 'json',
-//     },
-//   })
-//   .then((response) => {
-//     console.log(response.data);
-//   })
-//   .catch((error) => {
-//     console.log(error.response.data);
-//   });
-
-
-
-const findLocation = async () => {
-  const cityName = document.getElementById('cityNameInput').value;
-  console.log(cityName);
-  try {
-    const response = await axios.get('http://127.0.0.1:5000/location', {
-      params: {
-        q: cityName,
-      },
-    });
-      return response.data;
-  } catch (error) {
-    if (error.response) {
-      console.log('API Error:', error.response.data);
-    } else if (error.request) {
-      console.log('Network Error: No response received');
-    } else {
-      console.log('Error:', error.message);
-    }
-  }
-};
 // wave 6
 
 const resetCityName = () => {
@@ -153,4 +146,27 @@ const registerResetCityNameEventHandlers = () => {
   resetButton.addEventListener('click', resetCityName);
 }
 
+// wave 4
+
+
+// const findLocation = async () => {
+//   const cityName = document.getElementById('cityNameInput').value;
+//   console.log(cityName);
+//   try {
+//     const response = await axios.get('http://127.0.0.1:5000/location', {
+//       params: {
+//         q: cityName,
+//       },
+//     });
+//       return response.data;
+//   } catch (error) {
+//     if (error.response) {
+//       console.log('API Error:', error.response.data);
+//     } else if (error.request) {
+//       console.log('Network Error: No response received');
+//     } else {
+//       console.log('Error:', error.message);
+//     }
+//   }
+// };
 
