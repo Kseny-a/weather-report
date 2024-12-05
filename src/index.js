@@ -1,6 +1,6 @@
 // wave 2
 const state = {
-  tempValue: 50,
+  tempValue: 0,
   defaultCity: 'Seattle',
 
 };
@@ -102,7 +102,7 @@ const getTemp = () => {
           const tempInF = (tempInK * (9/5)) - 459.67;
           console.log(`success! temp is ${tempInF}`);
           state.tempValue = tempInF;
-
+          document.querySelector('#tempToCelsius').textContent = 'F'
           baseTempValue = tempInF;
           updateTemperatureDisplay();
           updateLandscape(state.tempValue);
