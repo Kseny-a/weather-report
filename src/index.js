@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
   registerCityNameHandlers();
   registerGetRealtimeTempHandlers();
   registerResetCityNameEventHandlers();
+  registerTempToCelsiusEventHandlers();
 });
 
 //wave4
@@ -101,6 +102,8 @@ const getTemp = () => {
           const tempInF = (tempInK * (9/5)) - 459.67;
           console.log(`success! temp is ${tempInF}`);
           state.tempValue = tempInF;
+
+          baseTempValue = tempInF;
           updateTemperatureDisplay();
           updateLandscape(state.tempValue);
         });
@@ -146,27 +149,23 @@ const registerResetCityNameEventHandlers = () => {
   resetButton.addEventListener('click', resetCityName);
 }
 
-// wave 4
 
+// Optional Temp to Celsius button
 
-// const findLocation = async () => {
-//   const cityName = document.getElementById('cityNameInput').value;
-//   console.log(cityName);
-//   try {
-//     const response = await axios.get('http://127.0.0.1:5000/location', {
-//       params: {
-//         q: cityName,
-//       },
-//     });
-//       return response.data;
-//   } catch (error) {
-//     if (error.response) {
-//       console.log('API Error:', error.response.data);
-//     } else if (error.request) {
-//       console.log('Network Error: No response received');
-//     } else {
-//       console.log('Error:', error.message);
-//     }
-//   }
-// };
+const changeTempToCelsius = () => {
+  const tempContainer = document.querySelector('#tempValue');
+  const currentTempF = baseTempValue;
+  const tempCelsius = (currentTempF - 32)*5/9;
+  
+  state.tempValue = tempCelsius;
+  tempContainer.textContent = tempCelsius.toFixed(0);
+  tempContainer.style.color = tempColorByNum(currentTempF)
+  
+  const toCButton = document.querySelector('#tempToCelsius')
+  toCButton.textContent = 'C'
+}
 
+const registerTempToCelsiusEventHandlers = () => {
+  const changeButton = document.querySelector('#tempToCelsius');
+  changeButton.addEventListener('click', changeTempToCelsius);
+}
