@@ -44,6 +44,7 @@ const updateTemperatureDisplay = () => {
   tempContainer.textContent = state.tempValue.toFixed(0)
   tempContainer.style.color = tempColorByNum(state.tempValue);
   updateLandscape(state.tempValue);
+  updateBackgroundColor(state.tempValue);
 }
 
 const increaseTemp = () => {
@@ -168,4 +169,20 @@ const changeTempToCelsius = () => {
 const registerTempToCelsiusEventHandlers = () => {
   const changeButton = document.querySelector('#tempToCelsius');
   changeButton.addEventListener('click', changeTempToCelsius);
+}
+
+// Optional background color change
+
+const updateBackgroundColor = (temp) => {
+  // document.body.style.backgroundColor  = '#96B6C5';
+
+  if (temp >= 80) {
+    document.body.style.backgroundColor  = '#F9C0AB';
+  } else if (temp >= 70) {
+    document.body.style.backgroundColor  = '#FFBD73';
+  } else if (temp >= 60) {
+    document.body.style.backgroundColor  = '#A8CD89';
+  } else if (temp <= 59) {
+    document.body.style.backgroundColor  = '#96B6C5';
+  }
 }
