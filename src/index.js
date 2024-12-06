@@ -1,6 +1,8 @@
 // wave 2
 const state = {
-  tempValue: 70
+  tempValue: 70,
+  defaultCity: 'Seattle'
+
 }
 
 const tempColorByNum = (value) => {
@@ -40,7 +42,7 @@ const updateLandscape = (temp) => {
 const updateTemperatureDisplay = () => {
   const tempContainer = document.querySelector('#tempValue');
 
-  tempContainer.textContent = state.tempValue.toFixed(2)
+  tempContainer.textContent = state.tempValue.toFixed(0)
   tempContainer.style.color = tempColorByNum(state.tempValue);
   updateLandscape(state.tempValue);
 }
@@ -62,7 +64,7 @@ const registerTempUpdateHandlers = () => {
   tempUpButton.addEventListener("click", increaseTemp);
   tempDownButton.addEventListener("click", decreaseTemp);
 };
-// wave 3
+// wave 3      
 const updateCityName = () => {
   const cityNameInput = document.querySelector('#cityNameInput');
   const cityNameDisplay = document.querySelector('#headerCityName');
@@ -79,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
   registerTempUpdateHandlers();
   registerCityNameHandlers();
   registerGetRealtimeTempHandlers();
+  registerResetCityNameHandler();
 });
 
 //wave4
@@ -111,4 +114,22 @@ const registerGetRealtimeTempHandlers = () => {
   const currentTempButton = document.getElementById('currentTempButton');
   currentTempButton.addEventListener('click', getTemp);
 } 
+
+// Wave 6: Resetting the City Name
+
+const resetCityName = () => {
+
+  const cityNameInput = document.querySelector('#cityNameInput');
+  const cityNameDisplay = document.querySelector('#headerCityName');
+
+
+  cityNameInput.value = state.defaultCity;
+  cityNameDisplay.textContent = state.defaultCity;
+};
+
+const registerResetCityNameHandler = () => {
+  const resetCityButton = document.querySelector('#cityNameReset');
+  resetCityButton.addEventListener('click', resetCityName);
+};
+
 
